@@ -62,9 +62,9 @@ class UserManager extends Manager{
            
                 $sql ="SELECT u.id_user, u.pseudo 
                 FROM  user u 
-                WHERE  u.pseudo LIKE '%".$data."%'";
+                WHERE  u.pseudo LIKE '%'.".$data.".'%'";
                 return $this->getMultipleResults(
-                    DAO::select($sql,["pseudo" =>'%'.$data.'%']), 
+                    DAO::select($sql), // ,["data" => '%'.$data.'%']
                     $this->className );
     }
 

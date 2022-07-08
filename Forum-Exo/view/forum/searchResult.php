@@ -1,17 +1,17 @@
 <?php
-$search =$result["data"]["search"];
-$search2 =$result["data"]["search2"];
-$search3 =$result["data"]["search3"];
-var_dump($search);die;
-var_dump($search2);die;
-var_dump($search3);die;
+$search =$result["data"]["searchTopic"];
+$search2 =$result["data"]["searchMessage"];
+$search3 =$result["data"]["searchPseudo"];
+// var_dump($search);die;
+// var_dump($search2);die;
+// var_dump($search3);die;
 ?>
 
 
 <h1>resultat recherche</h1>
 
 <?php foreach ($search as $s){
-    echo "<P>".$s."</br></p>";
+    echo $s;
 }
 ?>
 <?php foreach ($search2 as $s){

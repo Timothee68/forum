@@ -39,10 +39,10 @@
                     <div class="card-body">
                         <p class="card-text fs-2 text-center mt-4">Pseudo : <?=$profil->getPseudo() ;?></p>
                         <p class="card-text fs-2 text-center mt-4">Email : <?= $profil->getEmail();?></p>
-                        <p class="card-text fs-4 text-center mt-4">Crée le : <?= $_SESSION["user"]->getCreationDate();?></p>
-                        <p class="card-text fs-4 text-center mt-4">Tu es : <?= $_SESSION["user"]->getRole();?></p>
+                        <p class="card-text fs-4 text-center mt-4">Crée le : <?= $profil->getCreationDate();?></p>
+                        <p class="card-text fs-4 text-center mt-4">Tu es : <?= $profil->afficherRole();?></p>
                         <div class="col-2">
-                            <p class="card-text fs-4 text-center mt-4"><?= $_SESSION["user"]->getStatus() ? "<p class='bg-success'>normale</p>" : "<p class='bg-danger'>Lock</p>";?></p>
+                            <p class="card-text fs-4 text-center mt-4"><?= $profil->getStatus() ? "<p class='bg-success'>normale</p>" : "<p class='bg-danger'>Honte à toi tu as été banni pour ton mauvais comportement tu seras peut-étre ré-accepté utlérieurement </p>";?></p>
                         </div>
                     </div> 
                 </div>               

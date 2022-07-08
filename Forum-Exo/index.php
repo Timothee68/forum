@@ -19,7 +19,9 @@ namespace App;
     session_start();
     //et on intègre la classe Session qui prend la main sur les messages en session
     use App\Session as Session;
-
+    // Si pas de token, initialisation d'un token temporaire hors connexion
+    if(!Session::getTokenCSRF())
+        Session::setTokenCSRF(bin2hex(random_bytes(32))); // random_bytes(x) génère un string de x bytes, bin2hex convertit les bytes en hexadecimal
 //---------REQUETE HTTP INTERCEPTEE-----------
     $ctrlname = DEFAULT_CTRL;//on prend le controller par défaut
     //ex : index.php?ctrl=home

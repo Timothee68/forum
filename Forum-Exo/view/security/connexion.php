@@ -1,4 +1,21 @@
-<?php  $title = "login / register" ?>
+<?php  $title = "login / register";
+
+require_once 'recaptcha/autoload.php';
+if(isset($_POST["g-recaptcha-response"])){
+    if($_POST["submitSingUp"]){
+        $recaptcha = new \ReCaptcha\ReCaptcha("6Leqh9QgAAAAAKsmhQ9RaCAdS2TxI-U7Hvdr8XI4");
+        $resp = $recaptcha->verify($_POST["g-recaptcha-response"]);
+                        //   ->setExpectedHostname('recaptcha-demo.appspot.com');
+        if ($resp->isSuccess()) {
+            // Verified!
+        } else {
+            $errors = $resp->getErrorCodes();
+        }
+    }
+}
+
+
+?>
 <div class="container-fluid">
   <div class="row ">
     <div  id="bg-listTopic" style="height:300px ;">
@@ -52,6 +69,7 @@
                         </form>
                             <!--Formulaire inscription -->
                         <form action="index.php?ctrl=security&action=register" method="post">
+                            <div class="g-recaptcha" data-sitekey="6Leqh9QgAAAAAJLCmJ3Fy_eQTOQEN6IIc9GljHpl"></div>
                             <div class="cont_form_sign_up">
                                 <a href="#" onclick="ocultar_login_sign_up()"><i class="fa-solid fa-arrow-left"></i></a>
                                 <h2>Inscription</h2>
@@ -69,4 +87,6 @@
         </div>
     </div>
 </div>    
-
+<!-- 6Leqh9QgAAAAAJLCmJ3Fy_eQTOQEN6IIc9GljHpl     utilisez cette clé de site dans le code HTML de votre site destiné aux utilisateurs.
+-->
+<!-- 6Leqh9QgAAAAAKsmhQ9RaCAdS2TxI-U7Hvdr8XI4   Utilisez cette clé secrète pour la communication entre votre site et le service reCAPTCHA-->

@@ -20,11 +20,10 @@ class TopicManager extends Manager{
     
     // reqête pour récuper et les topics et les user qui l'on crée 
     public function findAllTopicsAndUsers($order = null){
-
+        
         $orderQuery = ($order) ?                 
             "ORDER BY ".$order[0]. " ".$order[1] :
             "";
-
         $sql = "SELECT *
                 FROM ".$this->tableName." a 
                 ".$orderQuery;
@@ -34,32 +33,6 @@ class TopicManager extends Manager{
             $this->className
         );
     }
-   //$data = ['username' => 'Squalli', 'password' => 'dfsyfshfbzeifbqefbq', 'email' => 'sql@gmail.com'];
-    public function addNewTopic($data){
-     
-        //$keys = ['username' , 'password', 'email']
-        $keys = array_keys($data);
-        //$values = ['Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com']
-        $values = array_values($data);
-        //"username,password,email"
-        $sql = "INSERT INTO ".$this->tableName."
-                (".implode(',', $keys).") 
-                VALUES
-                ('".implode("','",$values)."')";
-       
-                //"'Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com'"
-        /*
-            INSERT INTO user (username,password,email) VALUES ('Squalli', 'dfsyfshfbzeifbqefbq', 'sql@gmail.com') 
-        */
-        try{
-            return DAO::insert($sql); 
-          
-        }
-        catch(\PDOException $e){
-            echo $e->getMessage();
-            die();
-        }
-    }  
 
     
         // fonction pour afficher les topics par catégorie
@@ -78,11 +51,11 @@ class TopicManager extends Manager{
     // fonction de recherche EN COUR => MARCHE PAS !!!!!!!!!!!!!!
         public function searchTopic($data){
        
-            $sql = "SELECT  t.id_topic, t.title 
+            $sql = "SELECT t.id_topic, t.title 
             FROM topic t
-            WHERE  t.title LIKE '%".$data."%'";
+            WHERE t.title LIKE '%'.".$data.".'%'";
             return $this->getMultipleResults(
-                DAO::select($sql,["title" =>'%'.$data.'%']), 
+                DAO::select($sql), // ,["data" =>'%'.$data.'%']
                 $this->className );
         }
 }

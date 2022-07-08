@@ -21,8 +21,8 @@
             </div>
             <div class="card-body">
                 <h5 class="card-title mb-4"> Pseudo : <?=$user->getPseudo()?></h5>
-                <p class="card-text mb-4"><?=$user->getRole()?></p>
-                <p class="card-text">Statut de l'utilisateur : <?=$user->getStatus() ? "<p class='bg-success'>normale</p>" : "<p class='bg-danger'>Lock</p>" ?></p>
+                <p class="card-text mb-4"><?=$user->afficherRole()?></p>
+                <p class="card-text">Statut de l'utilisateur : <?=$user->getStatus() ? "<p class='bg-success'>normale</p>" : "<p class='bg-danger'>Banni de la communauté que la honte pèse sur lui</p>" ?> </p>
             </div>
             <div class="card-footer text-muted mb-5">
               <?=$user->getRole()?> depuis le <?=$user->getCreationDate()?>

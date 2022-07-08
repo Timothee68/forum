@@ -13,7 +13,7 @@ class User extends Entity {
     private $image;
     private $status ;
     private $role;
-
+    
 
     public function __construct($data){         
         $this->hydrate($data);        
@@ -131,7 +131,18 @@ class User extends Entity {
          */ 
         public function getRole()
         {
-            return $this->role;
+           
+                return $this->role;
+            }
+        
+
+        public function afficherRole(){
+
+          if(in_array("ROLE_ADMIN",$this->getRole())){
+                return "admin";
+          }else{
+            return "user";
+          }
         }
 
         /**
@@ -139,11 +150,22 @@ class User extends Entity {
          *
          * @return  self
          */ 
-        public function setRole($role)
+        public function setRole($r)
         {
-            $this->role = $role;
+            // on indique ici que l'on va récuperer du Json que nous allons récuperer
+            $this->role = json_decode($r);
+            // si il n'y a pas de role attitré
+            if(empty($this->$r)){
+                // on attribut automaitquement le role User 
+                $this->role[]= "ROLE_USER";
+            }
 
             return $this;
+        }
+
+        public function hasRole($role){
+        // on retourne donc si dans le tableau Json on trouve un role qui correspond au role envoyer en paramêtre alors on return true ;
+          return in_array($role,$this->getRole());
         }
 
             /**

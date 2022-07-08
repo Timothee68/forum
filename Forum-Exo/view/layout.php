@@ -4,10 +4,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- on ajoute a la balise  -->
+    <meta name="csrf-token" content=<?= App\Session::getTokenCSRF() ?>> 
     <link rel="stylesheet" href="public/css/style.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <title><?= $title ?></title>
 </head>
 <body>
@@ -42,7 +45,7 @@
                     </ul>
                     <form action="index.php?ctrl=forum&action=search" method="post" class="d-flex">
                         <input class="form-control me-2" name="data" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-warning" name="submit" type="submit">Search</button>
+                            <button class="btn btn-outline-warning" type="submit">Search</button>
                     </form>
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <?php if(isset($_SESSION['user'])) : ?>
@@ -82,11 +85,11 @@
             <div class="row">
                 <h3>NOUS SUIVRE</h3>
                 <div id="reseauxSocial" class="col-md-6 d-flex justify-content-evenly mb-4">
-                         <i class="fa-brands fa-facebook"></i>
-                         <i class="fa-brands fa-twitter"></i>
-                         <i class="fa-brands fa-instagram-square"></i>
-                         <i class="fa-brands fa-youtube"></i>
-                         <i class="fa-solid fa-rss"></i>
+                    <a href="#"> <i class="fa-brands fa-facebook"></i></a>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                    <a href="#"><i class="fa-brands fa-instagram-square"></i></a>
+                    <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                    <a href="#"><i class="fa-solid fa-rss"></i></a>           
                 </div>
             </div>
             <div class="row">
@@ -99,7 +102,9 @@
             </div>
         </div>
     </footer>
-
+    <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script>
       $(document).ready( function () {
@@ -108,12 +113,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.tiny.cloud/1/4bguo6e2rspwgrzx2pjb2t4afbhliwl1x8lnjroea9hhhc2x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-        <!-- <script>
-            tinymce.init({
-            selector: 'textarea#default-editor'
-            });
-        </script> -->
     <script src="public/js/script.js"></script>
 </body>
 </html>

@@ -26,7 +26,7 @@
         <tr>
           <td><a href="index.php?ctrl=security&action=profilOtherUSer&id=<?= $user->getId() ?>"><?=$user->getPseudo()?></a></td>
           <td scope="row"><?=$user->getStatus() ? "<p class='bg-success'>normale</p>" : "<p class='bg-danger'>Lock</p>" ?></td>
-          <td scope="row"><?=$user->getRole()?></td>
+          <td scope="row"><?=$user->afficherRole()?></td>
           <td><?=$user->getCreationDate()?></td>
           <form action="index.php?ctrl=security&action=lockUser&id=<?= $user->getId() ?>" method="post">
             <td><button class="btn btn-primary" name="lock" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Lock/Unlock user</button></td>

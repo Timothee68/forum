@@ -61,9 +61,9 @@ class MessageManager extends Manager{
 
         $sql ="SELECT m.id_message, m.text
         FROM  message m 
-        WHERE m.text  LIKE '%".$data."%'";
+        WHERE m.text  LIKE '%'.".$data.".'%'";
         return $this->getMultipleResults(
-            DAO::select($sql,["text" =>'%'.$data.'%']), 
+            DAO::select($sql), //,["data" =>'%'.$data.'%']
             $this->className );
 }
 }

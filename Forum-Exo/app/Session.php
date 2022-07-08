@@ -39,9 +39,18 @@
         }
 
         public static function isAdmin(){
-            if(self::getUser() && self::getUser()->getRole() == "ROLE_ADMIN") {
+            if(self::getUser() && self::getUser()->hasRole("ROLE_ADMIN") ) {
                 return true;
             }
             return false;
         }
+        
+        public static function setTokenCSRF($tokenCSRF){
+            $_SESSION["tokenCSRF"] = $tokenCSRF;
+        }
+
+        public static function getTokenCSRF(){
+            return (isset($_SESSION['tokenCSRF'])) ? $_SESSION['tokenCSRF'] : false;
+        }
+
     }

@@ -15,6 +15,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function index()
     {
         $categorieManager = new CategorieManager();
+        Session::setTokenCSRF(bin2hex(random_bytes(32)));
         return [
             "view" => VIEW_DIR."security/connexion.php", 
             "data" => [
@@ -51,7 +52,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
                         
                         {
                             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-                            $userManager->add(["email" => $email, "pseudo" => $pseudo,"password" => $passwordHash ]);
+                            $userManager->add(["email" => $email, "pseudo" => $pseudo,"password" => $passwordHash , "role" => json_encode(["ROLE_USER"])]);
 
                         }else {
                             Session::addFlash("error","Le mot de passe n'est pas identique. Ou pas assez long!!");
@@ -78,6 +79,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
         {
             $email = filter_input(INPUT_POST,"email",FILTER_SANITIZE_EMAIL,FILTER_VALIDATE_EMAIL);
             $password = filter_input(INPUT_POST,"password",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if(Session::getTokenCSRF() !== $_POST['csrfToken']){
+                $this->logout();
+            }
 
             if($email && $password) 
             {
@@ -87,9 +91,11 @@ class SecurityController extends AbstractController implements ControllerInterfa
                 
                 if(password_verify($password,$hash))
                 {
-                    if($user->getStatus() == true){
-                        
+                    if($user->getStatus() == true)
+                    {    
                         Session::setUser($user);
+                        //initialisation d'un token pour toute la session user
+                        Session::setTokenCSRF(bin2hex(random_bytes(32)));
                         Session::addFlash("success","vous êtes bien connecter bravo noobie !! =)");
                         return [
                             "view" => VIEW_DIR."home.php",
@@ -112,7 +118,8 @@ class SecurityController extends AbstractController implements ControllerInterfa
     
     // fonction pour ce déconnecter 
     public function logOut(){
-
+               
+        unset($_SESSION['tokenCSRF']);
         $_SESSION[] = session_unset();
         Session::addFlash("success","Déconnexion avec succès a bientôt =) ");
         $this->redirectTo("security","index");
@@ -154,6 +161,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
             if(isset($_POST["submit"]))
             {
                 $pseudo = filter_input(INPUT_POST,"pseudo",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+                if(Session::getTokenCSRF() !== $_POST['csrfToken']){
+                    $this->logout();
+                }
                 if($pseudo)
                 {
                     $userManager->edit(["pseudo" => $pseudo],$id);
@@ -171,6 +181,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
         if(isset($_POST["submit"]))
         {
             $email = filter_input(INPUT_POST,"email",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if(Session::getTokenCSRF() !== $_POST['csrfToken']){
+                $this->logout();
+            }
             if($email)
             {
                 $userManager->edit(["email" => $email],$id);
@@ -189,6 +202,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
             $password = filter_input(INPUT_POST,"password",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $passwordNew = filter_input(INPUT_POST,"passwordNew",FILTER_SANITIZE_FULL_SPECIAL_CHARS,FILTER_VALIDATE_REGEXP);
             $passwordVerifie = filter_input(INPUT_POST,"passwordVerifie",FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            if(Session::getTokenCSRF() !== $_POST['csrfToken']){
+                $this->logout();
+            }
             if($passwordNew == $passwordVerifie)
             {
                 if($password && $passwordNew )
@@ -221,6 +237,9 @@ class SecurityController extends AbstractController implements ControllerInterfa
         $userManager = new UserManager();
         if(isset($_POST['submit']))
         {
+            if(Session::getTokenCSRF() !== $_POST['csrfToken']){
+                $this->logout();
+            }
             if(isset($_FILES['image']))
             {
                 // si on echo $_FILES on obtient un tableau qui contient les infos dans le deuxieme [' '] on les places dans des variables
@@ -261,6 +280,7 @@ class SecurityController extends AbstractController implements ControllerInterfa
     public function closedTopicByUser($id)
     {
         $topicManager = new TopicManager();
+        
         if(isset($_POST["closed"]))
         {
             $topicManager->edit(["closed" => 0],$id);
@@ -308,12 +328,3 @@ class SecurityController extends AbstractController implements ControllerInterfa
 
 }
                     
-
-
-
-
-// md5(bin2hex(openss1_randompseudo_bytes(6)))
-
- // il faut supprimer le jeton a la in de la session 
-
- // 

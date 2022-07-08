@@ -19,7 +19,8 @@
         </tr>
       </thead>
       <tbody>
-        <?php foreach($messages as $message) : ?>
+        <?php if(isset($messages)){
+        foreach($messages as $message) : ?>
         <tr>
           <th scope="row"><?=$message->getText()?></th>
           <th><?=$message->getCreationMessage()?></th>
@@ -27,6 +28,10 @@
           <th><a href="index.php?ctrl=forum&action=showTopicsByCategorie&id=<?=$message->getTopic()->getCategorie()->getId()?>"><?=$message->getTopic()->getCategorie()->getTitle()?></a></th>
         </tr>
         <?php endforeach ?>  
+
+       <?php } else {
+        echo "<h1> AUCUN MESSAGE PUBLIER </h1>";
+       } ?>  
       </tbody>
     </table>
   </div>  

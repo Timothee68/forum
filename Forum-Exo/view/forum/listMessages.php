@@ -29,15 +29,17 @@
     <div id="bg-img-left" class="col bg-secondary">
       <?php  if(isset($messages)){
         foreach($messages as $message){
-          echo "<div class='card mt-2 mb-3' style='max-width: 540px;'>",
+          echo "<div class='card mt-2 mb-3 fs-4 text' style='max-width: 540px;'>",
                   "<div class='row g-0'>",
                     "<div class='col-md-4'>",
-                    "<img class='card-img-top' style='width: 8rem;' src='".$message->getUser()->getImage()."' alt='' srcset=''>",
+                    "<img class='card-img-top' style='width: 10rem; ' src='".$message->getUser()->getImage()."' alt='' srcset=''>",
                     "</div>",
                     "<div class='col-md-8'>",
                       "<div class='card-body>",
                         "<h5 class='card-title'><a href='index.php?ctrl=security&action=profilOtherUSer&id=".$message->getUser()->getId()."'><strong> Par : ".$message->getUser()->getPseudo()."</strong></a></h5>",
+                        "<hr>",
                         "<p class='card-text'>".$message->getText()."</p>",
+                        "<hr>",
                         "<p class='card-text'><small class='text-muted'>Envoyer le : ".$message->getCreationMessage()."</small></p>";
                            if(APP\Session::isAdmin() || isset($_SESSION['user']) && ($_SESSION['user']->getId() == $message->getUser()->getId())){ 
                             echo '<button type="button" class="btn btn-danger"><a href="index.php?ctrl=forum&action=deleteMessage&id='.$message->getId().'"><i class="fa-solid fa-dumpster fs-3 mb-1"></i></a></button>';
@@ -87,8 +89,10 @@
   <div class="row ">
     <h3 class="message" style="color: red"><?= App\Session::getFlash("error") ?></h3> 
     <h3 class="message" style="color: green"><?= App\Session::getFlash("success") ?></h3>
+    
     <?php if(isset($_SESSION["user"])) { 
-           if($topic->getClosed() == true) { ?>
+           if($topic->getClosed() == true) { 
+            if( $_SESSION['user']->getStatus() == true ){?>
       <form action="index.php?ctrl=forum&action=addMessage&id=<?=$topic->getId()?>" method="post" class="mt-5">
         <div class="mb-3 col-6">
           <label for="exampleFormControlTextarea1" class="form-label"><h3>Répondre</h3></label>
@@ -97,6 +101,7 @@
           <button class="btn btn-primary mb-5 " name="submit" type="submit" data-bs-toggle="modal" data-bs-target="#exampleModal">Envoyer</button>
       </form>
     <?php }
+       }
         } else echo "<h2 class='bg-warning'>connecter vous pour répondre</h2>" ?>
   </div>
 </div>   
